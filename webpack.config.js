@@ -17,4 +17,5 @@ module.exports = {
       inject: 'head',
     }),
   ],
+  devtool: 'source-map',
 };

@@ -8,10 +8,12 @@
   </head>
   <body>
     <button class="btn1">jserror</button>
+    <img src="aaa.png" alt="" />
     <script>
       const btn1 = document.querySelector('.btn1');
       btn1.addEventListener('click', () => {
-        console.log(a);
+        const a = 1;
+        console.log(a.fn());
       });
     </script>
   </body>
