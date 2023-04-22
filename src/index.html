@@ -8,13 +8,40 @@
   </head>
   <body>
     <button class="btn1">jserror</button>
-    <img src="aaa.png" alt="" />
+    <input type="button" value="ajax成功请求" onclick="sendAjaxSuccess()" />
+    <input type="button" value="ajax失败请求" onclick="sendAjaxError()" />
+    <!-- <img src="aaa.png" alt="" /> -->
     <script>
-      const btn1 = document.querySelector('.btn1');
-      btn1.addEventListener('click', () => {
-        const a = 1;
-        console.log(a.fn());
-      });
+      // const btn1 = document.querySelector('.btn1');
+      // btn1.addEventListener('click', () => {
+      //   const a = 1;
+      //   console.log(a.fn());
+      // });
+      // new Promise((resolve, reject) => {
+      //   throw new Error('11111');
+      // });
+      function sendAjaxSuccess() {
+        console.log('success');
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', '/success', true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+          console.log(xhr.response);
+        };
+        xhr.send();
+      }
+      function sendAjaxError() {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', '/error', true);
+        xhr.responseType = 'json';
+        xhr.onload = function () {
+          console.log(xhr.response);
+        };
+        xhr.onerror = function (error) {
+          console.log(error);
+        };
+        xhr.send('name=zhangsan');
+      }
     </script>
   </body>
 </html>

@@ -10,6 +10,15 @@ module.exports = {
   },
   devServer: {
     // contentBase: path.resolve(__dirname, 'dist'),
+    onBeforeSetupMiddleware: function (devServer) {
+      const router = devServer.app;
+      router.get('/success', function (req, res) {
+        res.json({ id: 1 });
+      });
+      router.post('/error', function (req, res) {
+        res.sendStatus(500);
+      });
+    },
   },
   plugins: [
     new HtmlWebpackPlugin({
