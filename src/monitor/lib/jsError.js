@@ -8,8 +8,6 @@ export function injectJsError() {
   window.addEventListener(
     'error',
     (event) => {
-      console.log('event = ', event);
-      console.log('lastEvent = ', getLastEvent());
       const lastEvent = getLastEvent();
 
       if (event.target && (event.target.src || event.target.href)) {

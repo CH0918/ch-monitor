@@ -24,7 +24,6 @@ const getSelector = function (path) {
   return result;
 };
 export default function (pathsOrTarget) {
-  console.log('ppp = ', pathsOrTarget);
   if (Array.isArray(pathsOrTarget)) {
     return getSelector(pathsOrTarget);
   } else {

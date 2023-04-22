@@ -23,8 +23,8 @@ class SendTracker {
         logs[key] = '' + logs[key];
       }
     }
-    console.log(logs);
-    console.log(JSON.stringify(logs, null, 2));
+    // console.log(logs);
+    // console.log(JSON.stringify(logs, null, 2));
     let body = JSON.stringify({
       __logs__: [logs],
     });

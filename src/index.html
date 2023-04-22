@@ -7,11 +7,23 @@
     <title>Document</title>
   </head>
   <body>
-    <button class="btn1">jserror</button>
-    <input type="button" value="ajax成功请求" onclick="sendAjaxSuccess()" />
-    <input type="button" value="ajax失败请求" onclick="sendAjaxError()" />
+    <div id="app">
+      <div>111</div>
+      <!-- <div
+        class="box1"
+        style="width: 100px; height: 100px; background-color: yellow"
+      >
+        <div class="box2">11</div>
+      </div>
+      <button class="btn1">jserror</button>
+      <input type="button" value="ajax成功请求" onclick="sendAjaxSuccess()" />
+      <input type="button" value="ajax失败请求" onclick="sendAjaxError()" /> -->
+    </div>
     <!-- <img src="aaa.png" alt="" /> -->
     <script>
+      const box2 = document.querySelector('.box2');
+      const ele = document.elementsFromPoint(100, 100);
+      console.log('ele = ', ele);
       // const btn1 = document.querySelector('.btn1');
       // btn1.addEventListener('click', () => {
       //   const a = 1;
