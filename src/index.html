@@ -8,12 +8,9 @@
   </head>
   <body>
     <div id="app">
+      <button id="longTaskBtn">执行longTask</button>
+
       <div>111</div>
-      <img
-        src="http://img.zhufengpeixun.cn/renderscope3.jpg"
-        alt=""
-        srcset=""
-      />
       <input type="text" />
       <!-- <div
         class="box1"
@@ -28,6 +25,16 @@
     <!-- <img src="aaa.png" alt="" /> -->
     <script>
       const app = document.querySelector('#app');
+
+      let longTaskBtn = document.getElementById('longTaskBtn');
+      longTaskBtn.addEventListener('click', longTask);
+      function longTask() {
+        let start = Date.now();
+        console.log('longTask开始 start', start);
+        while (Date.now() < 200 + start) {}
+        console.log('longTask结束 end', Date.now() - start);
+      }
+
       const ele = document.elementsFromPoint(100, 100);
       console.log('ele = ', ele);
       // const btn1 = document.querySelector('.btn1');

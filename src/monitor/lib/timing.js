@@ -24,7 +24,6 @@ export function timming() {
 
   // 检测FID 首次输入延迟时间
   new PerformanceObserver(function (entryList, observer) {
-    debugger;
     let lastEvent = getLastEvent();
     const firstInput = entryList.getEntries()[0];
     if (firstInput) {
