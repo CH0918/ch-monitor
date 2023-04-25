@@ -1,6 +1,3 @@
-let host = 'cn-beijing.log.aliyuncs.com';
-let project = 'zhufengmonitor';
-let logstore = 'zhufengmonitor-store';
 var userAgent = require('user-agent');
 function getExtraData() {
   return {
@@ -12,10 +9,10 @@ function getExtraData() {
 }
 class SendTracker {
   constructor() {
-    this.url = `http://${project}.${host}/logstores/${logstore}/track`;
+    // this.url = `http://${project}.${host}/logstores/${logstore}/track`;
     this.xhr = new XMLHttpRequest();
   }
-  send(data = {}, callback) {
+  send(data = {}, config, callback) {
     let extraData = getExtraData();
     let logs = { ...extraData, ...data };
     for (let key in logs) {
@@ -24,11 +21,12 @@ class SendTracker {
       }
     }
     // console.log(logs);
-    // console.log(JSON.stringify(logs, null, 2));
+    console.log(JSON.stringify(logs, null, 2));
     let body = JSON.stringify({
       __logs__: [logs],
     });
-    this.xhr.open('POST', this.url, true);
+    const url = `http://${config.project}.${config.host}/logstores/${config.logstore}/track`;
+    this.xhr.open('POST', url, true);
     this.xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
     this.xhr.setRequestHeader('x-log-apiversion', '0.6.0');
     this.xhr.setRequestHeader('x-log-bodyrawsize', body.length);

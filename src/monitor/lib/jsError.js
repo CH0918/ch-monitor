@@ -3,30 +3,45 @@ import getSelector from '../utils/getSelector';
 import getLastEvent from '../utils/getLastEvent';
 import formatTime from '../utils/formatTime';
 
-export function injectJsError() {
-  // 加载资源错误，
+// 监控资源加载错误
+export function handleResourceError(options = {}) {
+  // 是否开启监控资源加载错误
+  if (!options.monitorResourceErr) return;
+  const config = options.config;
+  const lastEvent = getLastEvent();
   window.addEventListener(
     'error',
     (event) => {
-      const lastEvent = getLastEvent();
-
       if (event.target && (event.target.src || event.target.href)) {
         // 资源加载错误和js错误
-        const log = {
-          kind: 'stability', //大类
-          type: 'error', //小类
-          errorType: 'resoueceError', //错误类型
-          filename: event.target.src || event.target.href, //访问的文件名
-          tagName: event.target.tagName,
-          timeStamp: formatTime(event.timeStamp),
-          selector: lastEvent
-            ? getSelector(lastEvent.path || lastEvent.target)
-            : '', //选择器
-        };
-        tracker.send(log);
-      } else {
-        // js错误
-        const log = {
+        tracker.send(
+          {
+            kind: 'stability', //大类
+            type: 'error', //小类
+            errorType: 'resoueceError', //错误类型
+            filename: event.target.src || event.target.href, //访问的文件名
+            tagName: event.target.tagName,
+            timeStamp: formatTime(event.timeStamp),
+            selector: lastEvent
+              ? getSelector(lastEvent.path || lastEvent.target)
+              : '', //选择器
+          },
+          config
+        );
+      }
+    },
+    true
+  );
+}
+
+// 监控js语法错误
+export function handleJsSyntaxError(options = {}) {
+  if (!options.monitorJsErr) return;
+  const config = options.config;
+  window.addEventListener('error', (event) => {
+    if (!(event.target && (event.target.src || event.target.href))) {
+      tracker.send(
+        {
           kind: 'stability', //大类
           type: 'error', //小类
           errorType: 'jsError', //错误类型
@@ -37,14 +52,16 @@ export function injectJsError() {
           selector: lastEvent
             ? getSelector(lastEvent.path || lastEvent.target)
             : '', //选择器
-        };
-        tracker.send(log);
-      }
-      // tracker.send(log);
-    },
-    true
-  );
+        },
+        config
+      );
+    }
+  });
+}
 
+export function handleUnhandledrejection(options = {}) {
+  if (!options.monitorPromiseErr) return;
+  const config = options.config;
   // promise 错误
   window.addEventListener('unhandledrejection', function (event) {
     let lastEvent = getLastEvent();
@@ -69,22 +86,26 @@ export function injectJsError() {
         }
         stack = getLines(reason.stack);
       }
-      const log = {
-        //未捕获的promise错误
-        kind: 'stability', //稳定性指标
-        type: 'error', //jsError
-        errorType: 'promiseError', //unhandledrejection
-        message: message, //标签名
-        filename: file,
-        position: line + ':' + column, //行列
-        stack,
-        selector: lastEvent
-          ? getSelector(lastEvent.path || lastEvent.target)
-          : '',
-      };
+      tracker.send(
+        {
+          //未捕获的promise错误
+          kind: 'stability', //稳定性指标
+          type: 'error', //jsError
+          errorType: 'promiseError', //unhandledrejection
+          message: message, //标签名
+          filename: file,
+          position: line + ':' + column, //行列
+          stack,
+          selector: lastEvent
+            ? getSelector(lastEvent.path || lastEvent.target)
+            : '',
+        },
+        config
+      );
     }
   });
 }
+
 function getLines(stack) {
   if (!stack) {
     return '';

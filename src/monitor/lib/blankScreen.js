@@ -16,7 +16,9 @@ function getSelector(element) {
   return selector;
 }
 
-export function blankScreen() {
+export function blankScreen(options = {}) {
+  if (!options.monitorBlankScreenErr) return;
+  const config = options.config;
   const containerSelectors = ['body', 'html', '#app', '#root'];
   let emptyPoints = 0;
   function isContainer(element) {
@@ -49,16 +51,18 @@ export function blankScreen() {
           innerWidth / 2,
           innerHeight / 2
         );
-        const log = {
-          kind: 'stability',
-          type: 'blank',
-          emptyPoints: '' + emptyPoints,
-          screen: window.screen.width + 'x' + window.screen.height,
-          viewPoint: innerWidth + 'x' + innerHeight,
-          selector: getSelector(centerElements[0]),
-        };
 
-        tracker.send(log);
+        tracker.send(
+          {
+            kind: 'stability',
+            type: 'blank',
+            emptyPoints: '' + emptyPoints,
+            screen: window.screen.width + 'x' + window.screen.height,
+            viewPoint: innerWidth + 'x' + innerHeight,
+            selector: getSelector(centerElements[0]),
+          },
+          config
+        );
       }
     }
   });

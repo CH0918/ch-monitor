@@ -1,5 +1,7 @@
 import tracker from '../utils/tracker';
-export function injectXHR() {
+export function injectXHR(options = {}) {
+  if (!options.monitorXHRErr) return;
+  const config = options.config;
   let XMLHttpRequest = window.XMLHttpRequest;
   let oldOpen = XMLHttpRequest.prototype.open;
   XMLHttpRequest.prototype.open = function (
@@ -29,17 +31,20 @@ export function injectXHR() {
         let duration = Date.now() - start;
         let status = this.status;
         let statusText = this.statusText;
-        tracker.send({
-          //未捕获的promise错误
-          kind: 'stability', //稳定性指标
-          type: 'xhr', //xhr
-          eventType: type, //load error abort
-          pathname: this.logData.url, //接口的url地址
-          status: status + '-' + statusText,
-          duration: '' + duration, //接口耗时
-          response: this.response ? JSON.stringify(this.response) : '',
-          params: body || '',
-        });
+        tracker.send(
+          {
+            //未捕获的promise错误
+            kind: 'stability', //稳定性指标
+            type: 'xhr', //xhr
+            eventType: type, //load error abort
+            pathname: this.logData.url, //接口的url地址
+            status: status + '-' + statusText,
+            duration: '' + duration, //接口耗时
+            response: this.response ? JSON.stringify(this.response) : '',
+            params: body || '',
+          },
+          config
+        );
       };
       this.addEventListener('load', handler('load'), false);
       this.addEventListener('error', handler('error'), false);
