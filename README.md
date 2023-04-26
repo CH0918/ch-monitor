@@ -18,7 +18,7 @@
 ## 安装
 
 ```shell
-npm install @ch/monitor
+npm install @ch0918/monitor
 ```
 
 ## vue3 中使用
@@ -33,9 +33,9 @@ const monitor = new ChMonitor({
     // 阿里云日志系统域名
     host: '',
     // 阿里云日志系统项目名
-    project: 'ch-monitor',
+    project: '',
     // 阿里云日志系统仓库名
-    logstore: 'ch-monitor-store',
+    logstore: '',
   },
 });
 app.use(monitor);
@@ -52,9 +52,9 @@ const monitor = new ChMonitor({
     // 阿里云日志系统域名
     host: '',
     // 阿里云日志系统项目名
-    project: 'ch-monitor',
+    project: '',
     // 阿里云日志系统仓库名
-    logstore: 'ch-monitor-store',
+    logstore: '',
   },
 });
 Vue.use();
@@ -123,6 +123,6 @@ monitorBlankScreen({ config });
 
 - [x] 基本的数据采集功能
 - [ ] 改成 TypeScript 重写
-- [ ] 添加单元测试加上
+- [ ] 添加单元测试
 - [ ] 新增 server 服务，将采集到的数据上传到数据库中
 - [ ] 新增后台看板功能
