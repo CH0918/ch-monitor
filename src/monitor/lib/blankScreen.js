@@ -45,6 +45,7 @@ export function blankScreen(options = {}) {
       if (i !== 5) {
         isContainer(yElements[0]);
       }
+
       if (emptyPoints === 17) {
         // 认为是白屏
         let centerElements = document.elementsFromPoint(

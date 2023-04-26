@@ -1,4 +1,5 @@
 import tracker from './utils/tracker';
+import checkConfig from './utils/checkConfig';
 import {
   handleResourceError,
   handleJsSyntaxError,
@@ -9,7 +10,7 @@ import {
   longTask,
 } from './lib';
 
-export default class ChMonitor {
+export class ChMonitor {
   constructor(options = {}) {
     this.options = Object.assign({}, options, {
       monitorResourceErr: true,
@@ -26,14 +27,11 @@ export default class ChMonitor {
   }
 
   init() {
-    const { host, project, logstore } = this.options.config || {};
-    if (!host || !project || !logstore) {
-      console.error('参数host, project, logstore为上传阿里云日志库的必填参数');
-      return;
-    }
+    if (!checkConfig(this.options.config)) return;
     this.monitor();
     return true;
   }
+
   monitor() {
     handleResourceError(this.options);
     handleJsSyntaxError(this.options);
@@ -45,15 +43,14 @@ export default class ChMonitor {
   }
   // vue 插件
   install(Vue) {
-    const { host, project, logstore } = this.options.config || {};
-    if (!host || !project || !logstore) {
-      console.error('参数host, project, logstore为上传阿里云日志库的必填参数');
-      return;
-    }
+    const options = this.options;
+    if (!checkConfig(options.config)) return;
     const handler = Vue.config.errorHandler;
     // vue项目在Vue.config.errorHandler中上报错误
-    const config = this.options.config || {};
+    const config = options.config || {};
     Vue.config.errorHandler = function (err, vm, info) {
+      // 检测是否白屏
+      monitorBlankScreen(options);
       tracker.send(
         {
           kind: 'stability',
@@ -67,7 +64,15 @@ export default class ChMonitor {
       if (handler) handler.apply(null, [err, vm, info]);
     };
   }
-  send(data, callback) {
-    tracker.send(data, this.options.config, callback);
-  }
+}
+
+export function send(data, callback) {
+  const config = data.config;
+  if (!checkConfig(config)) return;
+  delete data.config;
+  tracker.send(data, config, callback);
+}
+export function monitorBlankScreen(data) {
+  if (!checkConfig(data.config)) return;
+  blankScreen(data);
 }

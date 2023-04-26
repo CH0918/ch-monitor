@@ -1,4 +1,6 @@
 import tracker from '../utils/tracker';
+import { blankScreen } from './blankScreen';
+
 export function injectXHR(options = {}) {
   if (!options.monitorXHRErr) return;
   const config = options.config;
@@ -31,6 +33,8 @@ export function injectXHR(options = {}) {
         let duration = Date.now() - start;
         let status = this.status;
         let statusText = this.statusText;
+        // 检测有没有白屏
+        blankScreen(options);
         tracker.send(
           {
             //未捕获的promise错误

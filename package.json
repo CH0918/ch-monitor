@@ -1,15 +1,31 @@
 {
-  "name": "ch-monitor",
+  "name": "@ch0918/monitor",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A lightweight front-end monitor library",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CH0918/ch-monitor.git"
+  },
+  "keywords": [
+    "monitor",
+    "front-end",
+    "performance",
+    "error"
+  ],
+  "author": "ch0918",
+  "main": "dist/ch-monitor.common.js",
+  "files": [
+    "dist",
+    "package.json"
+  ],
   "scripts": {
     "build": "webpack",
-    "dev": "webpack serve --hot"
+    "dev": "webpack serve --hot",
+    "build:commonjs2": "webpack --config webpack.common.js",
+    "build:umd": "webpack --config webpack.umd.js",
+    "build:pro": "npm run build:commonjs2 && npm run build:umd"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "html-webpack-plugin": "^5.5.1",
     "user-agent": "^1.0.4",

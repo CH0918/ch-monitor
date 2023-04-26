@@ -2,6 +2,7 @@ import tracker from '../utils/tracker';
 import getSelector from '../utils/getSelector';
 import getLastEvent from '../utils/getLastEvent';
 import formatTime from '../utils/formatTime';
+import { blankScreen } from './blankScreen';
 
 // 监控资源加载错误
 export function handleResourceError(options = {}) {
@@ -13,6 +14,8 @@ export function handleResourceError(options = {}) {
     'error',
     (event) => {
       if (event.target && (event.target.src || event.target.href)) {
+        // 检测白屏
+        blankScreen(options);
         // 资源加载错误和js错误
         tracker.send(
           {
@@ -40,6 +43,8 @@ export function handleJsSyntaxError(options = {}) {
   const config = options.config;
   window.addEventListener('error', (event) => {
     if (!(event.target && (event.target.src || event.target.href))) {
+      // 检测白屏
+      blankScreen();
       tracker.send(
         {
           kind: 'stability', //大类
@@ -86,6 +91,8 @@ export function handleUnhandledrejection(options = {}) {
         }
         stack = getLines(reason.stack);
       }
+      // 检测白屏
+      blankScreen();
       tracker.send(
         {
           //未捕获的promise错误

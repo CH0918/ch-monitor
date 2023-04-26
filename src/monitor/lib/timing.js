@@ -75,7 +75,6 @@ export function timming(options = {}) {
       } = performance.timing;
       // 加载时间
       if (monitorLoadTime) {
-        console.log('run...........');
         tracker.send(
           {
             kind: 'experience',
