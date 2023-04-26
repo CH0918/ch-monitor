@@ -1,6 +1,6 @@
 const path = require('path');
 module.exports = {
-  mode: 'development',
+  mode: 'production',
   entry: './src/monitor/index.js',
   output: {
     path: path.join(__dirname, './dist'),

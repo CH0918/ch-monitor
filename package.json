@@ -1,6 +1,6 @@
 {
   "name": "@ch0918/monitor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A lightweight front-end monitor library",
   "repository": {
     "type": "git",
@@ -32,5 +32,6 @@
     "webpack": "^5.80.0",
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.13.3"
-  }
+  },
+  "dependencies": {}
 }
