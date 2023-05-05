@@ -8,8 +8,7 @@ import {
   blankScreen,
   timming,
   longTask,
-} from './lib';
-
+} from './lib/index.js';
 export class ChMonitor {
   constructor(options = {}) {
     this.options = Object.assign({}, options, {

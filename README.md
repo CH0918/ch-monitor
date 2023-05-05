@@ -62,6 +62,15 @@ const monitor = new ChMonitor({
 Vue.use();
 ```
 
+## 通过 cdn 使用
+
+```html
+<script src="https://www.unpkg.com/browse/@ch0918/monitor@1.0.2/dist/ch-monitor.umd.js"></script>
+<!-- 暴露了ChMonitor全局对象 -->
+<!-- const {ChMitor, send, monitorBlankScreen} = ChMonitor;
+用法跟Vue2和Vue3中一样 -->
+```
+
 ## 阿里云日志系统
 
 由于本 SDK 主要是将采集到的数据上传到阿里云日志系统中，所以需要先开通阿里云日志服务，方法如下：
